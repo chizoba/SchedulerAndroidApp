@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Click + to add a schedule"
+    android:id="@+id/emptyText"
+    android:layout_gravity="center"
+    android:textSize="24sp"
+    android:textColor="#0a94ae"
+    >
+
+
+</TextView>
