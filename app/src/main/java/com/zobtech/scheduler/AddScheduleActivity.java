@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public class AddScheduleActivity extends ActionBarActivity {
 
     private DataBaseHelper myDb;
 
+    private Uri scheduleUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,22 +58,53 @@ public class AddScheduleActivity extends ActionBarActivity {
 
         myDb = new DataBaseHelper(this);
 
-        textSchedule = (EditText) findViewById(R.id.schedule);
-        textDescription = (EditText) findViewById(R.id.description);
-        Button setTimeButton = (Button) findViewById(R.id.timeButton);
-        Button setDateButton = (Button) findViewById(R.id.dateButton);
 
-        textDate = (TextView) findViewById(R.id.dateTextView);
-        textTime = (TextView) findViewById(R.id.timeTextView);
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            textSchedule = (EditText) findViewById(R.id.schedule);
+            textDescription = (EditText) findViewById(R.id.description);
+            Button setTimeButton = (Button) findViewById(R.id.timeButton);
+            Button setDateButton = (Button) findViewById(R.id.dateButton);
 
-        //---get the current date---
-        Calendar today = Calendar.getInstance();
-        yr = today.get(Calendar.YEAR);
-        month = today.get(Calendar.MONTH);
-        day = today.get(Calendar.DAY_OF_MONTH);
+            textDate = (TextView) findViewById(R.id.dateTextView);
+            textTime = (TextView) findViewById(R.id.timeTextView);
 
-        hour = today.get(Calendar.HOUR_OF_DAY);
-        minute = today.get(Calendar.MINUTE);
+            //---get the current date---
+            Calendar today = Calendar.getInstance();
+            yr = today.get(Calendar.YEAR);
+            month = today.get(Calendar.MONTH);
+            day = today.get(Calendar.DAY_OF_MONTH);
+
+            hour = today.get(Calendar.HOUR_OF_DAY);
+            minute = today.get(Calendar.MINUTE);
+
+        }
+        // check from the saved Instance
+        scheduleUri = (savedInstanceState == null) ? null : (Uri) savedInstanceState
+                .getParcelable(SchedulerContentProvider.CONTENT_ITEM_TYPE);
+        // Or passed from the other activity
+
+        if (extras != null) {
+            scheduleUri = extras
+                    .getParcelable(SchedulerContentProvider.CONTENT_ITEM_TYPE);
+            textSchedule = (EditText) findViewById(R.id.schedule);
+            textDescription = (EditText) findViewById(R.id.description);
+            Button setTimeButton = (Button) findViewById(R.id.timeButton);
+            Button setDateButton = (Button) findViewById(R.id.dateButton);
+
+            textDate = (TextView) findViewById(R.id.dateTextView);
+            textTime = (TextView) findViewById(R.id.timeTextView);
+
+            //---get the current date---
+            Calendar today = Calendar.getInstance();
+            yr = today.get(Calendar.YEAR);
+            month = today.get(Calendar.MONTH);
+            day = today.get(Calendar.DAY_OF_MONTH);
+
+            hour = today.get(Calendar.HOUR_OF_DAY);
+            minute = today.get(Calendar.MINUTE);
+            fillData(scheduleUri);
+        }
 
     }
 
@@ -94,85 +128,96 @@ public class AddScheduleActivity extends ActionBarActivity {
         }
 
         if (id == R.id.save) {
-                if( textSchedule.getText().toString().length() == 0 )
-                    textSchedule.setError( "A schedule title is required!" );
-                else  if( textDate.getText().toString().length() == 0 )
-                    textDate.setError( "Please set a date" );
-                else  if( textTime.getText().toString().length() == 0 )
-                    textTime.setError( "Please set a time" );
+            if (textSchedule.getText().toString().length() == 0)
+                textSchedule.setError("A schedule title is required!");
+            else if (textDate.getText().toString().length() == 0)
+                textDate.setError("Please set a date");
+            else if (textTime.getText().toString().length() == 0)
+                textTime.setError("Please set a time");
 
-                else {
+            else {
 
-                    Intent i = new Intent();
-
-
-                    String message = textSchedule.getText().toString();
-
-
-                    Calendar calendar = Calendar.getInstance();
-
-                    calendar.set(yr, month, day);
-                    calendar.set(Calendar.HOUR_OF_DAY, hour);
-                    calendar.set(Calendar.MINUTE, minute);
-                    calendar.set(Calendar.SECOND, 0);
+//                if(textDescription.getText().toString().length() == 0){
+//                    textDescription.setText("No description set");
+//                }
+                Intent i = new Intent();
 
 
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                String message = textSchedule.getText().toString();
 
-                    i.setClass(AddScheduleActivity.this, SchedulerService.class);
-                    i.putExtra("msg", message);
-                    int idd = (int) System.currentTimeMillis();
 
-                    myDb = new DataBaseHelper(AddScheduleActivity.this);
-                    SQLiteDatabase db = myDb.getWritableDatabase();
+                Calendar calendar = Calendar.getInstance();
 
-                    ContentValues values = new ContentValues();
-                    values.clear();
+                calendar.set(yr, month, day);
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, minute);
+                calendar.set(Calendar.SECOND, 0);
 
-                    values.put(DataBaseHelper.COLUMN_SCHEDULE_TITLE, textSchedule.getText().toString());
-                    values.put(DataBaseHelper.COLUMN_DATE, textDate.getText().toString());
-                    values.put(DataBaseHelper.COLUMN_TIME, textTime.getText().toString());
-                    values.put(DataBaseHelper.COLUMN_DESCRIPTION, textDescription.getText().toString());
-                    values.put(DataBaseHelper.COLUMN_NOTIFICATION_ID, idd);
 
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                i.setClass(AddScheduleActivity.this, SchedulerService.class);
+                i.putExtra("msg", message);
+                int idd = (int) System.currentTimeMillis();
+
+                myDb = new DataBaseHelper(AddScheduleActivity.this);
+                SQLiteDatabase db = myDb.getWritableDatabase();
+
+                ContentValues values = new ContentValues();
+                values.clear();
+
+                values.put(DataBaseHelper.COLUMN_SCHEDULE_TITLE, textSchedule.getText().toString());
+                values.put(DataBaseHelper.COLUMN_DATE, textDate.getText().toString());
+                values.put(DataBaseHelper.COLUMN_TIME, textTime.getText().toString());
+                values.put(DataBaseHelper.COLUMN_DESCRIPTION, textDescription.getText().toString());
+                values.put(DataBaseHelper.COLUMN_NOTIFICATION_ID, idd);
+
+                if (scheduleUri == null) {
                     Uri uri = SchedulerContentProvider.CONTENT_URI;
-                    getApplicationContext().getContentResolver().insert(uri, values);
-
-                    PendingIntent pendingIntent = PendingIntent.getService(AddScheduleActivity.this, idd, i, PendingIntent.FLAG_UPDATE_CURRENT);
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-                    Intent intent = new Intent(AddScheduleActivity.this, ScheduleActivity.class);
-                    startActivity(intent);
-                    Toast toast = Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT);
-
-                    toast.show();
-                    finish();
-
+                    //New schedule
+                    scheduleUri = getApplicationContext().getContentResolver().insert(uri, values);
+                } else {
+                    //Update schedule
+                    getContentResolver().update(scheduleUri, values, null, null);
                 }
 
-                return true;
+//                    getApplicationContext().getContentResolver().insert(uri, values);
+
+                PendingIntent pendingIntent = PendingIntent.getService(AddScheduleActivity.this, idd, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+                Intent intent = new Intent(AddScheduleActivity.this, ScheduleActivity.class);
+                startActivity(intent);
+                Toast toast = Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT);
+
+                toast.show();
+                finish();
+
+            }
+
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-        private TimePickerDialog.OnTimeSetListener mTimeSetListener =
-                new TimePickerDialog.OnTimeSetListener() {
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener() {
 
 
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int hour_minute) {
-                        hour = hourOfDay;
-                        minute = hour_minute;
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int hour_minute) {
+                    hour = hourOfDay;
+                    minute = hour_minute;
 
-                        String time = getTime(hourOfDay, hour_minute);
+                    String time = getTime(hourOfDay, hour_minute);
 
-                        TextView timeTextView = (TextView) findViewById(R.id.timeTextView);
+                    TextView timeTextView = (TextView) findViewById(R.id.timeTextView);
 
-                        timeTextView.setText(time);
-                    }
-                };
+                    timeTextView.setText(time);
+                }
+            };
 
-    private String getTime(int hr, int min){
+    private String getTime(int hr, int min) {
         Time time = new Time(hr, min, 0);
         Format formatter;
         formatter = new SimpleDateFormat("h:mm a");
@@ -188,7 +233,7 @@ public class AddScheduleActivity extends ActionBarActivity {
                     day = dayOfMonth;
 
                     String dateSet = day + "-" + (month + 1) + "-" + year;
-                    String sss ="15-1-2012";
+                    String sss = "15-1-2012";
                     DateFormat dfFrom = new SimpleDateFormat("dd-MM-yyyy");
                     Date inputDate = null;
                     try {
@@ -198,7 +243,7 @@ public class AddScheduleActivity extends ActionBarActivity {
                     }
 
                     DateFormat dfTo = new SimpleDateFormat("MMMM dd, yyyy");
-                    String outputDate =dfTo.format(inputDate);
+                    String outputDate = dfTo.format(inputDate);
 
                     TextView dateTextView = (TextView) findViewById(R.id.dateTextView);
 
@@ -206,7 +251,7 @@ public class AddScheduleActivity extends ActionBarActivity {
                 }
             };
 
-        protected Dialog onCreateDialog(int id) {
+    protected Dialog onCreateDialog(int id) {
         switch (id) {
             case TIME_DIALOG_ID:
                 return new TimePickerDialog(this, mTimeSetListener, hour, minute, false);
@@ -234,8 +279,32 @@ public class AddScheduleActivity extends ActionBarActivity {
 
 
     }
+
+    private void fillData(Uri uri) {
+        String[] projection = {DataBaseHelper.COLUMN_SCHEDULE_TITLE,
+                DataBaseHelper.COLUMN_DATE, DataBaseHelper.COLUMN_TIME, DataBaseHelper.COLUMN_DESCRIPTION};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null,
+                null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+
+            textSchedule.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(DataBaseHelper.COLUMN_SCHEDULE_TITLE)));
+            textDescription.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(DataBaseHelper.COLUMN_DESCRIPTION)));
+            textDate.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(DataBaseHelper.COLUMN_DATE)));
+            textTime.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(DataBaseHelper.COLUMN_TIME)));
+
+            // always close the cursor
+            cursor.close();
+        }
+    }
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         finish();
     }

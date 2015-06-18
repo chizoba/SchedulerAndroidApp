@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
 <RelativeLayout
@@ -49,10 +53,9 @@
         android:onClick="showDatePickerDialog"
         android:drawableLeft="@drawable/ic_action_go_to_today"
         android:drawableStart="@drawable/ic_action_go_to_today"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
         android:background="#ff5da1ae"
-        />
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
 
     <com.zobtech.scheduler.CustomTextView
         android:layout_width="wrap_content"
@@ -66,7 +69,8 @@
         android:layout_alignTop="@+id/dateButton"
         android:layout_alignBottom="@+id/dateButton"
         android:layout_alignLeft="@+id/timeTextView"
-        android:layout_alignStart="@+id/timeTextView" />
+        android:layout_alignStart="@+id/timeTextView"
+        android:freezesText="true"/>
 
 
     <com.zobtech.scheduler.CustomButton
@@ -81,9 +85,9 @@
         android:onClick="showTimePickerDialog"
         android:drawableLeft="@drawable/ic_action_time"
         android:drawableStart="@drawable/ic_action_time"
+        android:background="#ff5da1ae"
         android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:background="#ff5da1ae" />
+        android:textColor="#ffffff" />
 
     <com.zobtech.scheduler.CustomTextView
         android:layout_width="match_parent"
@@ -96,8 +100,10 @@
         android:layout_alignBottom="@+id/timeButton"
         android:layout_below="@+id/dateTextView"
         android:layout_toRightOf="@+id/timeButton"
-        android:layout_toEndOf="@+id/timeButton" />
+        android:layout_toEndOf="@+id/timeButton"
+        android:freezesText="true"/>
 
 
 
 </RelativeLayout>
+    </ScrollView>

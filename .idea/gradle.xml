@@ -10,6 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/libraries" />
+            <option value="$PROJECT_DIR$/libraries/AppIntro" />
+            <option value="$PROJECT_DIR$/libraries/FAB" />
           </set>
         </option>
       </GradleProjectSettings>

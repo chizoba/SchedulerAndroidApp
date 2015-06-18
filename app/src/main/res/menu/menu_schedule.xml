@@ -9,9 +9,8 @@
         <!--app:showAsAction="never"-->
          <!--/>-->
     <item
-        android:id="@+id/add"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/add"
-        app:showAsAction="always"
+        android:id="@+id/about"
+        android:title="@string/about"
+        app:showAsAction="never"
         android:orderInCategory="100"/>
 </menu>

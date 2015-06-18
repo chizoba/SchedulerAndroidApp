@@ -1,9 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context="com.zobtech.scheduler.ScheduleActivity"
     >
 
@@ -27,4 +26,20 @@
         android:layout_centerHorizontal="true">
     </com.zobtech.scheduler.CustomTextView>
 
-</RelativeLayout>
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_action_new"
+        fab:fab_colorNormal="@color/Primary"
+        fab:fab_colorPressed="@color/PrimaryDark"
+        fab:fab_colorRipple="@color/colorBackground"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignBottom="@+id/listview_schedule"
+        android:layout_alignRight="@+id/listview_schedule"
+        android:layout_alignEnd="@+id/listview_schedule" />
+
+</FrameLayout>

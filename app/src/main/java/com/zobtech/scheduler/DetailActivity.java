@@ -73,6 +73,12 @@ public class DetailActivity extends ActionBarActivity implements LoaderManager.L
             getLoaderManager().initLoader(0, null, this);
 
         }
+        if (id == R.id.edit) {
+            Intent intent = new Intent(this, AddScheduleActivity.class);
+
+            intent.putExtra(SchedulerContentProvider.CONTENT_ITEM_TYPE, todoUri);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -95,6 +101,9 @@ public class DetailActivity extends ActionBarActivity implements LoaderManager.L
             detailTime.setText(cursor.getString(cursor
                     .getColumnIndexOrThrow(DataBaseHelper.COLUMN_TIME)));
 
+            if(detailDescription.getText().toString().length() == 0){
+                detailDescription.setText("No description set");
+            }
             // always close the cursor
             cursor.close();
         }
@@ -117,10 +126,10 @@ public class DetailActivity extends ActionBarActivity implements LoaderManager.L
     //        mAdapter.swapCursor(null);
     }
 
-    @Override
-    public void onBackPressed() {
-
-        super.onBackPressed();
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//
+//        super.onBackPressed();
+//        finish();
+//    }
 }

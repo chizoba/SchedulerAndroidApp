@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zobtech.scheduler">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.zobtech.scheduler" >
+
+    <uses-sdk tools:overrideLibrary="com.github.paolorotolo.appintro" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,12 +21,11 @@
         </activity>
         <activity
             android:name=".ScheduleActivity"
-            android:label="Schedules"></activity>
+            android:label="Schedules" />
         <activity
             android:name=".AddScheduleActivity"
             android:label="@string/title_activity_add_schedule"
-            android:parentActivityName=".ScheduleActivity"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".ScheduleActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.zobtech.scheduler.ScheduleActivity" />
@@ -31,16 +33,30 @@
         <activity
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
-            android:parentActivityName=".ScheduleActivity">
+            android:parentActivityName=".ScheduleActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.zobtech.scheduler.ScheduleActivity" />
         </activity>
 
         <provider
-            android:name="SchedulerContentProvider"
-            android:authorities="com.zobtech.scheduler.contentprovider"></provider>
-        <service android:name=".SchedulerService"></service>
+            android:name=".SchedulerContentProvider"
+            android:authorities="com.zobtech.scheduler.contentprovider" />
+
+        <service android:name=".SchedulerService" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".ScheduleActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.zobtech.scheduler.ScheduleActivity" />
+        </activity>
+        <activity
+            android:name=".IntroActivity"
+            android:label="@string/title_activity_intro" >
+        </activity>
     </application>
 
 </manifest>

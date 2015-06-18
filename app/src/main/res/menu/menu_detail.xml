@@ -8,4 +8,8 @@
         android:orderInCategory="100" app:showAsAction="always"
         android:icon="@drawable/ic_action_discard"
         />
+    <item android:id="@+id/edit" android:title="@string/edit"
+        android:orderInCategory="90" app:showAsAction="always"
+        android:icon="@drawable/ic_action_edit"
+        />
 </menu>

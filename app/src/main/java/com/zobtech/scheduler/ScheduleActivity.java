@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
+
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -36,6 +38,17 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         mAdapter = new ScheduleCursorAdapter(this, null, 0);
 
         listView = (ListView) findViewById(R.id.listview_schedule);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToListView(listView);
+        fab.show();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(ScheduleActivity.this, AddScheduleActivity.class), 1);
+            }
+        });
         listView.setAdapter(mAdapter);
 
         TextView emptyText = (TextView) findViewById(R.id.emptyText);
@@ -80,8 +93,8 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.add) {
-            startActivityForResult(new Intent(this, AddScheduleActivity.class), 1);
+        if (id == R.id.about) {
+            startActivity(new Intent(ScheduleActivity.this, AboutActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

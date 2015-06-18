@@ -18,7 +18,6 @@ import java.util.Calendar;
 
 public class MainActivity extends ActionBarActivity {
 
-
     DataBaseHelper myDb;
 
     @Override
@@ -51,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        String m = (String) actionBar.getTitle();
 
         Calendar c = Calendar.getInstance();
 
@@ -70,9 +68,11 @@ public class MainActivity extends ActionBarActivity {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void createNotification() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
         // Prepare intent which is triggered if the
         // notification is selected
-        Intent intent = new Intent(this, DetailActivity.class);
+        Intent intent = new Intent(this, ScheduleActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         // Build notification
@@ -84,7 +84,6 @@ public class MainActivity extends ActionBarActivity {
                 .addAction(R.mipmap.ic_launcher, "More", pIntent)
                 .addAction(R.mipmap.ic_launcher, "And more", pIntent)
                 .build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // hide the notification after its selected
         noti.flags |= Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(0, noti);

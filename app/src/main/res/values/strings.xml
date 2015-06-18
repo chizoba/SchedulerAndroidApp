@@ -12,5 +12,12 @@
     <string name="menu_delete">Delete Schedule</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="title_activity_about">About</string>
+    <string name="about">About</string>
+    <string name="aboutText"> Scheduler is an android application, which aims at helping users manage their time efficiently. It is simple and easy to use, it reminds users of saved schedules via notifications, and every user of this application will not have to go through the stress of remembering his/her activities.</string>
+    <string name="title_activity_intro">Intro</string>
+
+
 
 </resources>
