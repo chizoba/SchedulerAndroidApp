@@ -16,6 +16,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         mAdapter = new ScheduleCursorAdapter(this, null, 0);
 
         listView = (ListView) findViewById(R.id.listview_schedule);
-
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(listView);
         fab.show();
@@ -70,7 +71,7 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         registerForContextMenu(listView);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
+        notificationManager.cancel(1);
 
         getLoaderManager().initLoader(0, null, this);
     }

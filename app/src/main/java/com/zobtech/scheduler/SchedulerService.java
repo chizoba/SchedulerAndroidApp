@@ -39,8 +39,6 @@ public class SchedulerService extends Service {
         String message = intent.getStringExtra("msg");
 
         NotificationManager  notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent notificationIntent = new Intent(this, ScheduleActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         int icon = R.mipmap.ic_launcher;
         String tickerText = "New Schedule";
@@ -48,11 +46,15 @@ public class SchedulerService extends Service {
 
         Notification notification = new Notification(icon, tickerText, when);
 
+        Intent notificationIntent = new Intent(this, ScheduleActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
         String contentTitle = "Scheduler";
         String contentText = message;
         notification.setLatestEventInfo(this, contentTitle, contentText, pendingIntent);
         notification.defaults=Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS;
-
+        // Clear the notification when it is pressed
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(123, notification);
 
 
