@@ -10,8 +10,8 @@
         <item name="colorPrimary">@color/Primary</item>
         <item name="colorPrimaryDark">@color/PrimaryDark</item>
         <item name="colorAccent">@color/Accent</item>
-     <!--   <item name="windowBackground">@color/WindowBackground</item> -->
-        <item name="android:colorBackground">@color/colorBackground</item>
+        <!--<item name="windowBackground">@color/WindowBackground</item>-->
+        <!--<item name="android:colorBackground">@color/colorBackground</item>-->
 
 
     </style>

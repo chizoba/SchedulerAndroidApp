@@ -20,21 +20,18 @@ public class SchedulerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-    //        Toast.makeText(this, "onCreate()", Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-    //        Toast.makeText(this, "onDestroy()", Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-    //        Toast.makeText(this, "onStart()", Toast.LENGTH_SHORT).show();
 
         String message = intent.getStringExtra("msg");
 
@@ -53,11 +50,10 @@ public class SchedulerService extends Service {
         String contentText = message;
         notification.setLatestEventInfo(this, contentTitle, contentText, pendingIntent);
         notification.defaults=Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS;
+
         // Clear the notification when it is pressed
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(123, notification);
-
-
 
     }
 }

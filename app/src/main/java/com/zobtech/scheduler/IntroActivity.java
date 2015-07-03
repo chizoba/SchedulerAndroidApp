@@ -16,6 +16,7 @@ public class IntroActivity extends AppIntro {
 
     public SharedPreferences settings;
     public boolean firstRun;
+
     @Override
     public void init(Bundle savedInstanceState) {
 
@@ -46,7 +47,6 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onSkipPressed() {
         loadMainActivity();
-//        Toast.makeText(getApplicationContext(),getString(R.string.skip),Toast.LENGTH_SHORT).show();
     }
 
     @Override

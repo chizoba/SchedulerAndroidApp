@@ -3,11 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/libraries/FAB/FAB.iml" filepath="$PROJECT_DIR$/libraries/FAB/FAB.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Scheduler.iml" filepath="$PROJECT_DIR$/Scheduler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SchedulerAndroidApp.iml" filepath="$PROJECT_DIR$/SchedulerAndroidApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/library/library.iml" filepath="$PROJECT_DIR$/libraries/library/library.iml" />
     </modules>
   </component>
 </project>
-

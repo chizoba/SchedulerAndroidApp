@@ -10,9 +10,13 @@ import android.util.Log;
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
 
+    // Database Name
     public static final String DATABASE_NAME = "Schedule.db";
+
     // Database table
     public static final String TABLE_NAME = "schedule_table";
+
+    // Database Columns
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_SCHEDULE_TITLE = "schedule";
     public static final String COLUMN_DATE = "date";
@@ -36,8 +40,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + " INTEGER, "
             + COLUMN_DESCRIPTION
             + " TEXT NOT NULL)";
-    private static final int DATABASE_VERSION = 1;
 
+    //Database version
+    private static final int DATABASE_VERSION = 1;
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

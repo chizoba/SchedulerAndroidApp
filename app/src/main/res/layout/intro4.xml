@@ -36,6 +36,7 @@
             android:layout_weight="0.61"
             android:src="@drawable/organize"/>
     </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -50,7 +51,9 @@
         android:fontFamily="sans-serif-thin"
         android:onClick="getStarted"
         android:text="And Achieve More"/>
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="64dp" />
+
 </LinearLayout>

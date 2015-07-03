@@ -22,6 +22,7 @@ public class SchedulerContentProvider extends ContentProvider {
     private static final int SCHEDULES = 1;
     private static final int SCHEDULE_ID = 2;
 
+    // content provider's namespace
     private static final String AUTHORITY = "com.zobtech.scheduler.contentprovider";
     private static final String BASE_PATH = "schedules";
 

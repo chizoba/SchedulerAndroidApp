@@ -26,8 +26,11 @@ import com.melnykov.fab.FloatingActionButton;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ScheduleActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
-    private static final int DELETE_ID = Menu.FIRST + 1;
 
+    private static final int DELETE_ID = Menu.FIRST + 1;
+    public static final String SCHE = "";
+
+    // creating instances of List View and ScheduleCursorAdapter
     ListView listView;
     ScheduleCursorAdapter mAdapter;
 
@@ -36,10 +39,14 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
+        // initializing the instance of ScheduleCursorAdapter
         mAdapter = new ScheduleCursorAdapter(this, null, 0);
 
+        // initializing the instance of List View
         listView = (ListView) findViewById(R.id.listview_schedule);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+
+        // initializing the floating action button object
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(listView);
         fab.show();
@@ -50,8 +57,11 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
                 startActivityForResult(new Intent(ScheduleActivity.this, AddScheduleActivity.class), 1);
             }
         });
+
+        // setting the instance of ScheduleCursorAdapter to the instance of the List View
         listView.setAdapter(mAdapter);
 
+        // set a text view when the list view is empty
         TextView emptyText = (TextView) findViewById(R.id.emptyText);
         listView.setEmptyView(emptyText);
 
@@ -59,12 +69,11 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                long rowID = parent.getItemIdAtPosition(position);
                 Intent intent = new Intent(ScheduleActivity.this, DetailActivity.class);
-
-                Uri scheduleUri = Uri.parse(SchedulerContentProvider.CONTENT_URI + "/" + id);
-
-                intent.putExtra(SchedulerContentProvider.CONTENT_ITEM_TYPE, scheduleUri);
+                intent.putExtra(SCHE, rowID);
                 startActivity(intent);
+
             }
         });
 
@@ -124,7 +133,7 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         return super.onContextItemSelected(item);
     }
 
-    // USING LOADERS
+    // loader callbacks
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri uri = SchedulerContentProvider.CONTENT_URI;
@@ -146,9 +155,5 @@ public class ScheduleActivity extends ActionBarActivity implements LoaderManager
         super.onResume();
         getLoaderManager().restartLoader(0, null, this);
     }
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
-        finish();
-    }
+
 }

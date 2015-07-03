@@ -16,10 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    // instance of text views
     TextView detailSchedule, detailDate, detailTime, detailDescription;
-    private Uri todoUri;
+    private Uri _uri;
 
 
 
@@ -28,22 +29,14 @@ public class DetailActivity extends ActionBarActivity implements LoaderManager.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        // initializing instances of text views
         detailSchedule = (TextView) findViewById(R.id.detailTextViewSchedule);
         detailDate = (TextView) findViewById(R.id.detailTextViewDate);
         detailTime = (TextView) findViewById(R.id.detailTextViewTime);
         detailDescription = (TextView) findViewById(R.id.detailTextViewDescription);
-        Bundle extras = getIntent().getExtras();
 
-        // check from the saved Instance
-        todoUri = (savedInstanceState == null) ? null : (Uri) savedInstanceState
-                .getParcelable(SchedulerContentProvider.CONTENT_ITEM_TYPE);
-        // Or passed from the other activity
-        if (extras != null) {
-            todoUri = extras
-                    .getParcelable(SchedulerContentProvider.CONTENT_ITEM_TYPE);
-        }
-        fillData(todoUri);
-
+        getLoaderManager().initLoader(0, null, this);
     }
 
 
@@ -67,69 +60,57 @@ public class DetailActivity extends ActionBarActivity implements LoaderManager.L
         }
 
         if (id == R.id.delete) {
-
-            getContentResolver().delete(todoUri, null, null);
+            getContentResolver().delete(_uri, null, null);
             Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
-            getLoaderManager().initLoader(0, null, this);
-
+            Intent intent = new Intent(this, ScheduleActivity.class);
+            startActivity(intent);
         }
+
         if (id == R.id.edit) {
             Intent intent = new Intent(this, AddScheduleActivity.class);
-
-            intent.putExtra(SchedulerContentProvider.CONTENT_ITEM_TYPE, todoUri);
+            intent.putExtra(ScheduleActivity.SCHE, _uri);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void fillData(Uri uri) {
-        String[] projection = {DataBaseHelper.COLUMN_SCHEDULE_TITLE,
-                DataBaseHelper.COLUMN_DATE, DataBaseHelper.COLUMN_TIME, DataBaseHelper.COLUMN_DESCRIPTION};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null,
-                null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-
-
-            detailSchedule.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(DataBaseHelper.COLUMN_SCHEDULE_TITLE)));
-            detailDescription.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(DataBaseHelper.COLUMN_DESCRIPTION)));
-            detailDate.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(DataBaseHelper.COLUMN_DATE)));
-            detailTime.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(DataBaseHelper.COLUMN_TIME)));
-
-            if(detailDescription.getText().toString().length() == 0){
-                detailDescription.setText("No description set");
-            }
-            // always close the cursor
-            cursor.close();
-        }
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri uri = SchedulerContentProvider.CONTENT_URI;
-        return new CursorLoader(this, uri, null, null, null, null);
+        long rowID = getIntent().getLongExtra(ScheduleActivity.SCHE, -1);
+        _uri = Uri.parse(SchedulerContentProvider.CONTENT_URI +"/"+ rowID);
+        return new CursorLoader(this, _uri, null, null, null, null);
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Intent intent = new Intent(this, ScheduleActivity.class);
-        startActivity(intent);
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        cursor.moveToFirst();
+
+        // display values gotten from database in text views
+        detailSchedule.setText(cursor.getString(cursor
+                .getColumnIndexOrThrow(DataBaseHelper.COLUMN_SCHEDULE_TITLE)));
+        detailDescription.setText(cursor.getString(cursor
+                .getColumnIndexOrThrow(DataBaseHelper.COLUMN_DESCRIPTION)));
+        detailDate.setText(cursor.getString(cursor
+                .getColumnIndexOrThrow(DataBaseHelper.COLUMN_DATE)));
+        detailTime.setText(cursor.getString(cursor
+                .getColumnIndexOrThrow(DataBaseHelper.COLUMN_TIME)));
+
+        if (detailDescription.getText().toString().length() == 0) {
+            detailDescription.setText("No description set");
+        }
+
+        cursor.close();
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-    //        mAdapter.swapCursor(null);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//        super.onBackPressed();
-//        finish();
-//    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

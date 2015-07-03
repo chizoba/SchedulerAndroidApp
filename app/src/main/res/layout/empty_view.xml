@@ -7,8 +7,7 @@
     android:id="@+id/emptyText"
     android:layout_gravity="center"
     android:textSize="24sp"
-    android:textColor="#0a94ae"
-    >
+    android:textColor="#0a94ae" >
 
 
 </TextView>
